@@ -1,0 +1,23 @@
+<div class="layout">
+    <nav class="navbar">
+        <div class="navbar-content">
+          <div class="user-info">
+            Bienvenido, <span class="username">{{ userName }}</span>
+          </div>
+          <div class="logout">
+            <a href="#" (click)="logout()" routerLink="security/sign-in">Cerrar Sesión</a>
+          </div>
+        </div>
+      </nav>      
+    <div class="main-content">
+      <aside class="sidebar">
+        <div class="lista" routerLink="lista">Inicio</div>
+        <div class="lista" routerLink="crear">Crear</div>
+        <div class="lista" routerLink="comprar">Carrito</div>
+        <div class="lista" routerLink="perfil">Mi perfil</div>
+      </aside>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+</div>
