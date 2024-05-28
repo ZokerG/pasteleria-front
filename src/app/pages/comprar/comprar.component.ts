@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ProductoService } from 'src/app/service/productos.service';
 
 @Component({
@@ -9,9 +10,11 @@ import { ProductoService } from 'src/app/service/productos.service';
 export class ComprarComponent implements OnInit{
 
   productos: any;
+  clienteId: any = localStorage.getItem('userId');
   
   constructor(
     private productosService: ProductoService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -30,10 +33,11 @@ export class ComprarComponent implements OnInit{
 
   eliminarProducto(producto: any) {
     this.productos = this.productos.filter((p:any) => p.id !== producto.id);
+    this.toastr.success('Producto eliminado del carrito', 'Producto eliminado');
   }
 
   procederAlPago() {
-    this.productosService.comprarCarrito(1).subscribe({
+    this.productosService.comprarCarrito(this.clienteId).subscribe({
       next: (res) => {
         window.open(res.url, '_blank');
       },
@@ -44,10 +48,22 @@ export class ComprarComponent implements OnInit{
   }
 
   obtenerCarrito(){
-    this.productosService.listarCarrito(1).subscribe(
+    this.productosService.listarCarrito(this.clienteId).subscribe(
       (res) => {
         console.log(res);
         this.productos = res;
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  }
+
+  deleteCarrito(){
+    this.productosService.eliminarCarrito(this.clienteId).subscribe(
+      (res) => {
+        console.log(res);
+        this.productos = [];
       },
       (err) => {
         console.error(err);

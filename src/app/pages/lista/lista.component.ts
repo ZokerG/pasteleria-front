@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ProductoService } from 'src/app/service/productos.service';
 
 @Component({
@@ -9,11 +10,12 @@ import { ProductoService } from 'src/app/service/productos.service';
 export class ListaComponent implements OnInit{
 
   productos: any;
-  clienteId: any;
+  clienteId: any = localStorage.getItem('userId');
   contadorProductos: { [id: string]: number } = {};
 
   constructor(
     private productosService: ProductoService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -31,9 +33,10 @@ export class ListaComponent implements OnInit{
   }
 
   agregarAlCarrito(producto: any) {
-    this.productosService.agregarAlCarrito(1, producto.id, 1, producto.precio).subscribe({
+    this.productosService.agregarAlCarrito(this.clienteId, producto.id, 1, producto.precio).subscribe({
       next: (res) => {
         console.log(res);
+        this.toastr.success('Producto agregado al carrito', 'Producto agregado');
       },
       error: (err) => {
         console.error(err);

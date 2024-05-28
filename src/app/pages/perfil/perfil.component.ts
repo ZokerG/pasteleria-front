@@ -9,6 +9,7 @@ import { UsuariosServicio } from 'src/app/service/usuarios.service';
 })
 export class PerfilComponent implements OnInit{
   perfilForm!: FormGroup;
+  usuarioId: any = localStorage.getItem('userId');
 
   constructor(private fb: FormBuilder,
     private usuarioService: UsuariosServicio
@@ -30,7 +31,7 @@ export class PerfilComponent implements OnInit{
   }
 
   buscarUsuario(){
-    this.usuarioService.buscarPorId(1).subscribe(
+    this.usuarioService.buscarPorId(this.usuarioId).subscribe(
       (res) => {
         console.log(res);
         this.perfilForm.patchValue(res);

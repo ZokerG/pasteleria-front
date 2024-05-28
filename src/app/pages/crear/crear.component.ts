@@ -53,8 +53,6 @@ export class CrearComponent implements OnInit{
 
   crearProducto(){
     const { categoriaId, nombre, descripcion, precio, stock } = this.productoForm.value;
-    console.log(categoriaId, nombre, descripcion, precio, stock);
-    console.log(this.fileData);
     this.productoService.crear(categoriaId, this.fileData, nombre, descripcion, precio, stock).subscribe(
       (res) => {
         console.log(res);
